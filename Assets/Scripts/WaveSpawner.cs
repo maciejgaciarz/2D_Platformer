@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour {
 
-    public enum SpawnState { Spawning, Waiting, Counting};
+    public enum SpawnState { Spawning, Waiting, Counting };
 
     [System.Serializable]
     public class Wave
@@ -19,12 +19,27 @@ public class WaveSpawner : MonoBehaviour {
     public Transform[] spawnPoints;
     public Wave[] waves;
     private int nextWave = 0;
+    public int NextWave
+    {
+        get { return nextWave + 1; }
+    }
+
 
     public float timeBetweenWaves = 5f;
     private float waveCountdown;
 
+    public float WaveCountdown
+    {
+        get { return waveCountdown; }
+    }
+
+
     private float searchCountdown = 1f;
 
+    public SpawnState State
+    {
+        get { return state; }
+    }
 
     private SpawnState state = SpawnState.Counting;
 

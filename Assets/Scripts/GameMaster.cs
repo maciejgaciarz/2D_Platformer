@@ -5,6 +5,13 @@ public class GameMaster : MonoBehaviour {
 
 	public static GameMaster gm;
 
+    private static int _remainingLives = 3;
+    public static int RemainingLives
+    {
+        get { return _remainingLives; }
+    }
+
+
 	void Awake()
 	{
 		if (gm == null)
@@ -16,7 +23,10 @@ public class GameMaster : MonoBehaviour {
     public float spawnDelay = 2f;
 	public Transform spawnPrefab;
 
+    [SerializeField]
+    private GameObject gameOverUI;
 
+    
     public CameraShake cameraShake;
 
     private void Start()
@@ -25,6 +35,13 @@ public class GameMaster : MonoBehaviour {
         {
             Debug.LogError("No camera shake referenced in GameMaster");
         }
+    }
+
+    public void EndGame()
+    {
+        Debug.Log("Game Over");
+        gameOverUI.SetActive(true);
+        
     }
 
     public IEnumerator _RespawnPlayer()
@@ -40,8 +57,16 @@ public class GameMaster : MonoBehaviour {
 	public static void KillPlayer(Player player)
 	{
 		Destroy (player.gameObject);
-		gm.StartCoroutine(gm._RespawnPlayer());
-	}
+        _remainingLives--;
+        if(_remainingLives <= 0)
+        {
+            gm.EndGame();
+        }
+        else
+        {
+            gm.StartCoroutine(gm._RespawnPlayer());
+        }
+    }
 
 
 
